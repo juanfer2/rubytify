@@ -6,6 +6,10 @@ class AlbumsService
     @artists_service = ArtistsService.new
   end
 
+  def song_service 
+    @song_service ||= SongsService.new
+  end
+
   def get_albums_by_artist(artist_id,  retry_attempts=0)
     artist = @artists_service.get_artist_by_id(artist_id)
     artist.present? ? struct_data_albums(artist.albums) : nil
@@ -18,9 +22,17 @@ class AlbumsService
       raise
   end
 
-  def get_album_by_id(id)
+  def get_album_by_id(id, struct_data = true)
     album = RSpotify::Album.find(id)
-    album.present? ? struct_data_album(album) : nil
+    album.present? ? format_data_album(album, struct_data) : nil
+  end
+
+  def format_data_album(album, struct_data = true)
+    if struct_data
+      struct_data_album(album)
+    else
+      album
+    end
   end
 
   def struct_data_albums(albums)
@@ -38,7 +50,8 @@ class AlbumsService
       image: album.images.present? ? album.images[0]['url'] : IMAGE_NOT_FOUND,
       total_tracks: album.total_tracks,
       spotify_id: album.id,
-      spotify_url: album.href
+      spotify_url: album.href,
+      tracks: song_service.struct_data_songs(album.tracks)
     }
   end
 end

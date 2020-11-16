@@ -4,7 +4,6 @@ class MigrationFromSpotify < ActiveRecord::Migration[6.0]
     spotify_service = SpotifyService.new
     list_artists['artists'].each do |art|
       spotify_service.migration_data_by_artist(art)
-      sleep 5
     end
   end
 end

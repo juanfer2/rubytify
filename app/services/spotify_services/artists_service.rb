@@ -28,7 +28,7 @@ class ArtistsService
       genres: artist.genres,
       spotify_id: artist.id,
       spotify_url: artist.href,
-      # albums: albums_service.struct_data_albums(artist.albums)
+      albums: albums_service.struct_data_albums(artist.albums)
     }
   end
 end

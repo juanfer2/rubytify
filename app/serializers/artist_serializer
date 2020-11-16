@@ -1,3 +1,0 @@
-class ArtistSerializer < ActiveModel::Serializer
-  attributes :id, :name, :image, :popularity, :spotify_url, :spotify_id
-end
